@@ -2,104 +2,97 @@ import 'models.dart';
 
 class GetCharactersExpanded {
   int id;
-  int age;
-  DateTime birthdate;
+  int? age;
+  DateTime? birthdate;
   String description;
-  int firstAppearanceEpId;
-  int firstAppearanceShId;
+  int? firstAppearanceEpId;
+  int? firstAppearanceShId;
   String gender;
   String name;
   String occupation;
   List<String> phrases;
-  String portraitPath;
+  String? portraitPath;
   String status;
-  FirstAppearance firstAppearanceEp;
-  FirstAppearance firstAppearanceSh;
+  FirstAppearance? firstAppearanceEp;
+  FirstAppearance? firstAppearanceSh;
 
   GetCharactersExpanded({
     required this.id,
-    required this.age,
-    required this.birthdate,
+    this.age,
+    this.birthdate,
     required this.description,
-    required this.firstAppearanceEpId,
-    required this.firstAppearanceShId,
+    this.firstAppearanceEpId,
+    this.firstAppearanceShId,
     required this.gender,
     required this.name,
     required this.occupation,
     required this.phrases,
-    required this.portraitPath,
+    this.portraitPath,
     required this.status,
-    required this.firstAppearanceEp,
-    required this.firstAppearanceSh,
+    this.firstAppearanceEp,
+    this.firstAppearanceSh,
   });
+
+  String get fullPortraitPath {
+    if (portraitPath != null && portraitPath!.isNotEmpty) {
+      return 'https://cdn.thesimpsonsapi.com/500$portraitPath';
+    }
+    return 'https://i.stack.imgur.com/GNhxO.png';
+  }
 
   factory GetCharactersExpanded.fromRawJson(String str) =>
       GetCharactersExpanded.fromJson(json.decode(str));
-
-  //String toRawJson() => json.encode(toJson());
 
   factory GetCharactersExpanded.fromJson(Map<String, dynamic> json) =>
       GetCharactersExpanded(
         id: json["id"],
         age: json["age"],
-        birthdate: DateTime.parse(json["birthdate"]),
-        description: json["description"],
+        birthdate: json["birthdate"] != null && json["birthdate"] != ""
+            ? DateTime.tryParse(json["birthdate"])
+            : null,
+        description: json["description"] ?? '',
         firstAppearanceEpId: json["first_appearance_ep_id"],
         firstAppearanceShId: json["first_appearance_sh_id"],
-        gender: json["gender"],
-        name: json["name"],
-        occupation: json["occupation"],
-        phrases: List<String>.from(json["phrases"].map((x) => x)),
+        gender: json["gender"] ?? 'Unknown',
+        name: json["name"] ?? 'Unknown',
+        occupation: json["occupation"] ?? '',
+        phrases: json["phrases"] != null
+            ? List<String>.from(json["phrases"])
+            : [''],
         portraitPath: json["portrait_path"],
-        status: json["status"],
-        firstAppearanceEp:
-            FirstAppearance.fromJson(json["first_appearance_ep"]),
-        firstAppearanceSh:
-            FirstAppearance.fromJson(json["first_appearance_sh"]),
+        status: json["status"] ?? 'Unknown',
+        firstAppearanceEp: json["first_appearance_ep"] != null
+            ? FirstAppearance.fromJson(json["first_appearance_ep"])
+            : null,
+        firstAppearanceSh: json["first_appearance_sh"] != null
+            ? FirstAppearance.fromJson(json["first_appearance_sh"])
+            : null,
       );
-
-  // Map<String, dynamic> toJson() => {
-  //       "id": id,
-  //       "age": age,
-  //       "birthdate":
-  //           "${birthdate.year.toString().padLeft(4, '0')}-${birthdate.month.toString().padLeft(2, '0')}-${birthdate.day.toString().padLeft(2, '0')}",
-  //       "description": description,
-  //       "first_appearance_ep_id": firstAppearanceEpId,
-  //       "first_appearance_sh_id": firstAppearanceShId,
-  //       "gender": gender,
-  //       "name": name,
-  //       "occupation": occupation,
-  //       "phrases": List<dynamic>.from(phrases.map((x) => x)),
-  //       "portrait_path": portraitPath,
-  //       "status": status,
-  //       "first_appearance_ep": firstAppearanceEp.toJson(),
-  //       "first_appearance_sh": firstAppearanceSh.toJson(),
-  //     };
 }
 
 class FirstAppearance {
   int id;
-  DateTime airdate;
+  String name;
+  String? imagePath;
   String description;
   int episodeNumber;
-  String imagePath;
-  String name;
   int season;
   String synopsis;
+  DateTime? airdate;
 
   FirstAppearance({
     required this.id,
-    required this.airdate,
+    required this.name,
+    this.imagePath,
     required this.description,
     required this.episodeNumber,
-    required this.imagePath,
-    required this.name,
     required this.season,
     required this.synopsis,
+    this.airdate,
   });
 
-  get fullImagePath {
-    if (imagePath != null) {
+  String get fullImagePath {
+    if (imagePath != null && imagePath!.isNotEmpty) {
       return 'https://cdn.thesimpsonsapi.com/500$imagePath';
     }
     return 'https://i.stack.imgur.com/GNhxO.png';
@@ -108,29 +101,17 @@ class FirstAppearance {
   factory FirstAppearance.fromRawJson(String str) =>
       FirstAppearance.fromJson(json.decode(str));
 
-  //String toRawJson() => json.encode(toJson());
-
   factory FirstAppearance.fromJson(Map<String, dynamic> json) =>
       FirstAppearance(
         id: json["id"],
-        airdate: DateTime.parse(json["airdate"]),
-        description: json["description"],
-        episodeNumber: json["episode_number"],
+        name: json["name"] ?? 'Unknown',
         imagePath: json["image_path"],
-        name: json["name"],
-        season: json["season"],
-        synopsis: json["synopsis"],
+        description: json["description"] ?? '',
+        episodeNumber: json["episode_number"] ?? 0,
+        season: json["season"] ?? 0,
+        synopsis: json["synopsis"] ?? '',
+        airdate: json["airdate"] != null && json["airdate"] != ""
+            ? DateTime.tryParse(json["airdate"])
+            : null,
       );
-
-  // Map<String, dynamic> toJson() => {
-  //       "id": id,
-  //       "airdate":
-  //           "${airdate.year.toString().padLeft(4, '0')}-${airdate.month.toString().padLeft(2, '0')}-${airdate.day.toString().padLeft(2, '0')}",
-  //       "description": description,
-  //       "episode_number": episodeNumber,
-  //       "image_path": imagePath,
-  //       "name": name,
-  //       "season": season,
-  //       "synopsis": synopsis,
-  //     };
 }

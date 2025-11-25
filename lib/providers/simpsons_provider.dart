@@ -8,12 +8,16 @@ class SimpsonsProvider extends ChangeNotifier {
   String _page = '1';
 
   List<Character> personatges = [];
+  List<Locations> localitzacions = [];
+  Map<int, GetCharactersExpanded> characterDetails = {};
 
   SimpsonsProvider() {
-    this.getSimposonsCharacters();
+    this.getSimpsonsCharacters();
+    this.getLocations();
+  
   }
 
-  getSimposonsCharacters() async{
+  getSimpsonsCharacters() async{
       var url = Uri.https(_baseUrl, 'api/characters', {
       'page': _page,
       });
@@ -23,5 +27,25 @@ class SimpsonsProvider extends ChangeNotifier {
 
     personatges = getCharactersResponse.results;
     notifyListeners();
+  }
+
+  getLocations() async {
+    var url = Uri.https(_baseUrl, 'api/locations');
+
+    final result = await http.get(url);
+    final getLocationsResponse = GetLocations.fromRawJson(result.body);
+
+    localitzacions = getLocationsResponse.results;
+    notifyListeners();
+  }
+
+  Future<GetCharactersExpanded> getSimpsonsCharactersExpanded(int characterId) async{
+      var url = Uri.https(_baseUrl, 'api/characters/$characterId');
+
+    final result = await http.get(url);
+    final getCharactersExpandedResponse = GetCharactersExpanded.fromRawJson(result.body);
+
+    characterDetails[characterId] = getCharactersExpandedResponse;
+    return getCharactersExpandedResponse;
   }
 }

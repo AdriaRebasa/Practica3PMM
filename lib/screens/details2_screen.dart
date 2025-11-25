@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/models.dart';
 import 'package:movies_app/widgets/widgets.dart';
 
-class DetailsScreen extends StatelessWidget {
+class Details2Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Character personatge =
-        ModalRoute.of(context)?.settings.arguments as Character;
+    // TODO: Canviar després per una instància de Peli
+    final String peli =
+        ModalRoute.of(context)?.settings.arguments.toString() ?? 'no-movie';
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _CustomAppBar(personatge: personatge),
+          _CustomAppBar(),
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                _PosterAndTitile(personatge: personatge),
-                _Overview(personatge: personatge),
-                CastingCards(personatge.id),
+                _PosterAndTitile(),
+                _Overview(),
+                _Overview(),
+                //CastingCards(),
               ],
             ),
           ),
@@ -28,14 +29,11 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
-  final Character personatge;
-
-  const _CustomAppBar({super.key, required this.personatge});
   @override
   Widget build(BuildContext context) {
     // Exactament igual que la AppBaer però amb bon comportament davant scroll
     return SliverAppBar(
-      backgroundColor: const Color.fromARGB(255, 255, 247, 176),
+      backgroundColor: Colors.indigo,
       expandedHeight: 200,
       floating: false,
       pinned: true,
@@ -48,13 +46,13 @@ class _CustomAppBar extends StatelessWidget {
           color: Colors.black12,
           padding: const EdgeInsets.only(bottom: 10),
           child: Text(
-            personatge.name,
+            'Títol peli',
             style: TextStyle(fontSize: 16),
           ),
         ),
         background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage(personatge.fullPortraitPath),
+          image: NetworkImage('https://placehold.co/500x300/png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -63,9 +61,6 @@ class _CustomAppBar extends StatelessWidget {
 }
 
 class _PosterAndTitile extends StatelessWidget {
-  final Character personatge;
-
-  const _PosterAndTitile({super.key, required this.personatge});
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -78,7 +73,7 @@ class _PosterAndTitile extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: AssetImage('assets/loading.gif'),
-              image: NetworkImage(personatge.fullPortraitPath),
+              image: NetworkImage('https://placehold.co/200x300/png'),
               height: 150,
             ),
           ),
@@ -86,26 +81,26 @@ class _PosterAndTitile extends StatelessWidget {
             width: 20,
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                personatge.name,
+                'Títol peli',
                 style: textTheme.headlineSmall,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               Text(
-                personatge.age.toString(),
+                'Títol original',
                 style: textTheme.titleMedium,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
-              Text(
-                personatge.occupation,
-                style: textTheme.titleMedium,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
+              Row(
+                children: [
+                  const Icon(Icons.star_outline, size: 15, color: Colors.grey),
+                  const SizedBox(width: 5),
+                  Text('Nota mitjana', style: textTheme.bodySmall),
+                ],
+              )
             ],
           )
         ],
@@ -115,26 +110,14 @@ class _PosterAndTitile extends StatelessWidget {
 }
 
 class _Overview extends StatelessWidget {
-  final Character personatge;
-
-  const _Overview({super.key, required this.personatge});
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        children: [
-          Text(
-            'Phrases:',
-            textAlign: TextAlign.justify,
-            style: Theme.of(  context).textTheme.headlineMedium,
-              ),
-          Text(
-            personatge.phrases!.join('\n'),
-            textAlign: TextAlign.justify,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        ],
+      child: Text(
+        'Labore eiusmod ad reprehenderit irure eu sunt ex minim. Lorem fugiat Lorem proident duis ea cupidatat. Commodo duis culpa reprehenderit ad elit. Velit duis officia reprehenderit ullamco sint id anim officia est. Enim mollit nisi et exercitation dolore commodo. Cillum mollit laborum non nulla cillum non do reprehenderit Lorem deserunt ex eu sunt do.',
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

@@ -39,9 +39,11 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (BuildContext context) => HomeScreen(),
         'details': (BuildContext context) => DetailsScreen(),
+        'details2': (BuildContext context) => Details2Screen(),
+        'details3': (BuildContext context) => Details3Screen(),
       },
       theme: ThemeData.light()
-          .copyWith(appBarTheme: const AppBarTheme(color: Colors.indigo)),
+          .copyWith(appBarTheme: const AppBarTheme(color: Colors.yellow)),
     );
   }
 }

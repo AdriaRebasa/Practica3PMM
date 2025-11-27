@@ -8,19 +8,18 @@ class SimpsonsProvider extends ChangeNotifier {
   String _page = '1';
 
   List<Character> personatges = [];
-  List<Locations> localitzacions = [];
+  List<Location> localitzacions = [];
   Map<int, GetCharactersExpanded> characterDetails = {};
+  List<Episode> episodis = [];
 
   SimpsonsProvider() {
-    this.getSimpsonsCharacters();
-    this.getLocations();
-  
+    getSimpsonsCharacters();
+    getLocations();
+    getEpisodes();
   }
 
   getSimpsonsCharacters() async{
-      var url = Uri.https(_baseUrl, 'api/characters', {
-      'page': _page,
-      });
+    var url = Uri.https(_baseUrl, 'api/characters');
 
     final result = await http.get(url);
     final getCharactersResponse = GetCharacters.fromRawJson(result.body);
@@ -47,5 +46,15 @@ class SimpsonsProvider extends ChangeNotifier {
 
     characterDetails[characterId] = getCharactersExpandedResponse;
     return getCharactersExpandedResponse;
+  }
+
+  getEpisodes() async {
+    var url = Uri.https(_baseUrl, 'api/episodes');
+
+    final result = await http.get(url);
+    final getEpisodesResponse = GetEpisodes.fromRawJson(result.body);
+
+    episodis = getEpisodesResponse.results;
+    notifyListeners();
   }
 }

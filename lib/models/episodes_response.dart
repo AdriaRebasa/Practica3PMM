@@ -1,13 +1,13 @@
 import 'models.dart';
 
-class GetLocations {
+class GetEpisodes {
     int count;
     String next;
     dynamic prev;
     int pages;
-    List<Location> results;
+    List<Episode> results;
 
-    GetLocations({
+    GetEpisodes({
         required this.count,
         required this.next,
         required this.prev,
@@ -15,16 +15,16 @@ class GetLocations {
         required this.results,
     });
 
-    factory GetLocations.fromRawJson(String str) => GetLocations.fromJson(json.decode(str));
+    factory GetEpisodes.fromRawJson(String str) => GetEpisodes.fromJson(json.decode(str));
 
     //String toRawJson() => json.encode(toJson());
 
-    factory GetLocations.fromJson(Map<String, dynamic> json) => GetLocations(
+    factory GetEpisodes.fromJson(Map<String, dynamic> json) => GetEpisodes(
         count: json["count"],
         next: json["next"],
         prev: json["prev"],
         pages: json["pages"],
-        results: List<Location>.from(json["results"].map((x) => Location.fromJson(x))),
+        results: List<Episode>.from(json["results"].map((x) => Episode.fromJson(x))),
     );
 
     // Map<String, dynamic> toJson() => {

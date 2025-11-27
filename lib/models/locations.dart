@@ -1,18 +1,18 @@
 import 'models.dart';
 
-class Locations {
+class Location {
     int id;
     String name;
     String imagePath;
-    String? town;
-    String? use;
+    String town;
+    String use;
 
-    Locations({
+    Location({
         required this.id,
         required this.name,
         required this.imagePath,
-        this.town,
-        this.use,
+        required this.town,
+        required this.use,
     });
 
     get fullImagePath {
@@ -22,16 +22,16 @@ class Locations {
     return 'https://i.stack.imgur.com/GNhxO.png';
   } 
 
-    factory Locations.fromRawJson(String str) => Locations.fromJson(json.decode(str));
+    factory Location.fromRawJson(String str) => Location.fromJson(json.decode(str));
 
     //String toRawJson() => json.encode(toJson());
 
-    factory Locations.fromJson(Map<String, dynamic> json) => Locations(
+    factory Location.fromJson(Map<String, dynamic> json) => Location(
         id: json["id"],
         name: json["name"],
         imagePath: json["image_path"],
-        town: json["town"],
-        use: json["use"],
+        town: json["town"] ?? 'Unknown',
+        use: json["use"] ?? 'Unknown',
     );
 
     // Map<String, dynamic> toJson() => {

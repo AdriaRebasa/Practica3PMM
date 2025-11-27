@@ -22,11 +22,11 @@ class HomeScreen extends StatelessWidget {
               // Targetes principals
               CardSwiper(personatges: simpsonsProvider.personatges),
 
+              // Slider d'episodis
+              EpisodeSlider(episodis: simpsonsProvider.episodis),
+
               // Slider de localitzacions
               MovieSlider(locations: simpsonsProvider.localitzacions),
-              // Poodeu fer la prova d'afegir-ne uns quants, veureu com cada llista és independent
-              // MovieSlider(),
-              // MovieSlider(),
             ],
           ),
         ),

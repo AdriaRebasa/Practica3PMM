@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/widgets/widgets.dart';
+import 'package:movies_app/models/episodi.dart';
 
 class Details3Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Canviar després per una instància de Peli
-    final String peli =
-        ModalRoute.of(context)?.settings.arguments.toString() ?? 'no-movie';
+    final Episode episodi =
+        ModalRoute.of(context)?.settings.arguments as Episode;
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _CustomAppBar(),
+          _CustomAppBar(episodi: episodi),
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                _PosterAndTitile(),
-                _Overview(),
-                _Overview(),
+                _PosterAndTitile(episodi: episodi),
+                _Overview(episodi: episodi),
                 //CastingCards(),
               ],
             ),
@@ -29,11 +28,15 @@ class Details3Screen extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
+  final Episode episodi;
+
+  const _CustomAppBar({super.key, required this.episodi});
   @override
   Widget build(BuildContext context) {
     // Exactament igual que la AppBaer però amb bon comportament davant scroll
     return SliverAppBar(
       backgroundColor: Colors.indigo,
+      foregroundColor: Colors.white,
       expandedHeight: 200,
       floating: false,
       pinned: true,
@@ -46,13 +49,13 @@ class _CustomAppBar extends StatelessWidget {
           color: Colors.black12,
           padding: const EdgeInsets.only(bottom: 10),
           child: Text(
-            'Títol peli',
+            '',
             style: TextStyle(fontSize: 16),
           ),
         ),
         background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage('https://placehold.co/500x300/png'),
+          image: NetworkImage(episodi.fullImagePath),
           fit: BoxFit.cover,
         ),
       ),
@@ -61,61 +64,49 @@ class _CustomAppBar extends StatelessWidget {
 }
 
 class _PosterAndTitile extends StatelessWidget {
+  final Episode episodi;
+  const _PosterAndTitile({super.key, required this.episodi});
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
-      margin: const EdgeInsets.only(top: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/loading.gif'),
-              image: NetworkImage('https://placehold.co/200x300/png'),
-              height: 150,
+        margin: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${episodi.episodeNumber}. ${episodi.name}',
+              style: textTheme.headlineSmall,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
             ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            children: [
-              Text(
-                'Títol peli',
-                style: textTheme.headlineSmall,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              Text(
-                'Títol original',
-                style: textTheme.titleMedium,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.star_outline, size: 15, color: Colors.grey),
-                  const SizedBox(width: 5),
-                  Text('Nota mitjana', style: textTheme.bodySmall),
-                ],
-              )
-            ],
-          )
-        ],
-      ),
-    );
+            Text(
+              episodi.airdate,
+              style: textTheme.titleMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+            Text(
+              'Season: ${episodi.season}',
+              style: textTheme.titleMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+          ],
+        ));
   }
 }
 
 class _Overview extends StatelessWidget {
+  final Episode episodi;
+  const _Overview({super.key, required this.episodi});
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Text(
-        'Labore eiusmod ad reprehenderit irure eu sunt ex minim. Lorem fugiat Lorem proident duis ea cupidatat. Commodo duis culpa reprehenderit ad elit. Velit duis officia reprehenderit ullamco sint id anim officia est. Enim mollit nisi et exercitation dolore commodo. Cillum mollit laborum non nulla cillum non do reprehenderit Lorem deserunt ex eu sunt do.',
+        episodi.synopsis,
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.titleMedium,
       ),

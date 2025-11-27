@@ -61,15 +61,25 @@ class _CustomAppBar extends StatelessWidget {
         centerTitle: true,
         titlePadding: EdgeInsets.all(0),
         title: Container(
-          width: double.infinity,
-          alignment: Alignment.bottomCenter,
-          color: Colors.black12,
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
-            character.name,
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
+            width: double.infinity,
+            alignment: Alignment.bottomCenter,
+            color: Colors.black12,
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 8, vertical: 4), // espai al voltant del text
+              decoration: BoxDecoration(
+                color: Colors.black45, // fons
+                borderRadius: BorderRadius.circular(12), // cantonades rodones
+              ),
+              child: Text(
+                character.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            )),
         background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
           image: NetworkImage(character.fullPortraitPath),

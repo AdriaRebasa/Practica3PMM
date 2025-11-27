@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/models.dart';
 
-class MovieSlider extends StatelessWidget {
+class EpisodeSlider extends StatelessWidget {
 
-  final List<Location> locations;
+  final List<Episode> episodis;
 
-  const MovieSlider({super.key, required this.locations});
+  const EpisodeSlider({super.key, required this.episodis});
   
 
   @override
   Widget build(BuildContext context) {
 
-    if (locations.isEmpty) {
+    if (episodis.isEmpty) {
       return Container(
         width: double.infinity,
         height: 270,
@@ -24,21 +24,22 @@ class MovieSlider extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 270,
+      margin: const EdgeInsets.only(bottom: 30),
       // color: Colors.red,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Locations',
+            child: Text('Episodes',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: locations.length,
-                itemBuilder: (_, int index) => _MoviePoster(location: locations[index])),
+                itemCount: episodis.length,
+                itemBuilder: (_, int index) => _MoviePoster(episodi: episodis[index])),
           )
         ],
       ),
@@ -48,9 +49,9 @@ class MovieSlider extends StatelessWidget {
 
 class _MoviePoster extends StatelessWidget {
 
-  final Location location;
+  final Episode episodi;
 
-  const _MoviePoster({required this.location});
+  const _MoviePoster({required this.episodi});
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +63,13 @@ class _MoviePoster extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details2',
-                arguments: location),
+            onTap: () => Navigator.pushNamed(context, 'details3',
+                arguments: episodi),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(location.fullImagePath),
+                image: NetworkImage(episodi.fullImagePath),
                 width: 130,
                 height: 190,
                 fit: BoxFit.cover,
@@ -79,7 +80,7 @@ class _MoviePoster extends StatelessWidget {
             height: 5,
           ),
           Text(
-            location.name,
+            episodi.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

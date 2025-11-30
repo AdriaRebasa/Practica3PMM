@@ -12,7 +12,9 @@ class HomeScreen extends StatelessWidget {
         title: const Text('The Simpsons App'),
         elevation: 0,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search_outlined))
+          IconButton(onPressed: () {
+            Navigator.pushNamed(context, 'characters');
+          }, icon: const Icon(Icons.arrow_forward_ios))
         ],
       ),
       body: SingleChildScrollView(
